@@ -1,0 +1,25 @@
+name: Anali Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Clone Anali Agent
+        run: git clone https://github.com/adityapal99/AnaliAI /tmp/anali
+      - name: Install dependencies
+        run: pip install -r /tmp/anali/requirements.txt
+      - name: Run Anali Security Agent
+        run: python -m anali --path .
+        working-directory: /tmp/anali
+      - name: Upload report
+        uses: actions/upload-artifact@v3
+        with:
+          name: anali-report
+          path: /tmp/anali/reports/
