@@ -9,4 +9,4 @@ RUN rm gitleaks.tar.gz
 WORKDIR /app
 COPY . .
 
-ENTRYPOINT ["python", "-m", "anali"]
+CMD ["python", "-m", "anali"]
