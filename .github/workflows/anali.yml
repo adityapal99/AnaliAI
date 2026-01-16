@@ -1,4 +1,4 @@
-name: 🛡️ Aegis Security Scan (DockerHub - adityapal404/anali)
+name: 🛡️ Anali Security Scan (DockerHub - adityapal404/anali)
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  aegis_scan:
-    name: Run Aegis Agent in Docker (from DockerHub)
+  anali_scan:
+    name: Run Anali Agent in Docker (from DockerHub)
     runs-on: ubuntu-latest
 
     steps:
@@ -32,11 +32,11 @@ jobs:
       # -------------------------------------------------------------
       # STEP 3: Pull your Docker image from DockerHub
       # -------------------------------------------------------------
-      - name: Pull Aegis Agent Image from DockerHub
+      - name: Pull Anali Agent Image from DockerHub
         run: docker pull adityapal404/anali:latest
 
       # -------------------------------------------------------------
-      # STEP 4: Run the Aegis scan inside the container
+      # STEP 4: Run the Anali scan inside the container
       # -------------------------------------------------------------
       - name: Run Security Scan
         run: |
@@ -45,7 +45,7 @@ jobs:
             -v ${{ github.workspace }}:/scan \
             -v ${{ github.workspace }}/reports:/reports \
             adityapal404/anali:latest \
-            python -m aegis --path /scan
+            python -m anali --path /scan
         continue-on-error: true
 
       # -------------------------------------------------------------
@@ -54,6 +54,6 @@ jobs:
       - name: Upload Security Reports
         uses: actions/upload-artifact@v4
         with:
-          name: aegis-scan-report
+          name: anali-scan-report
           path: reports/
           retention-days: 30
