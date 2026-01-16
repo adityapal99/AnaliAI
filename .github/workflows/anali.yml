@@ -1,0 +1,25 @@
+name: Anali Agent Layer 1
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: Install Dependencies
+      run: pip install bandit semgrep pip-audit gitleaks
+    - name: Run Anali Security Agent
+      run: python -m anali
+    - name: Upload report
+      uses: actions/upload-artifact@v3
+      with:
+        name: anali-report
+        path: reports/

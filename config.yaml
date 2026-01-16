@@ -1,0 +1,4 @@
+﻿# Sample configuration (placeholder)
+scanners:
+  - python
+  - node
