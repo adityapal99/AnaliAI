@@ -45,7 +45,7 @@ jobs:
             -v ${{ github.workspace }}:/scan \
             -v ${{ github.workspace }}/reports:/reports \
             adityapal404/anali:latest \
-            python -m anali --path /scan
+            --path /scan
         continue-on-error: true
 
       # -------------------------------------------------------------
