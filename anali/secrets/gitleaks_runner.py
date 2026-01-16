@@ -3,5 +3,4 @@
 from anali.core.executor import run_command
 
 def scan_secrets():
-    output = run_command("gitleaks detect --report-format json --no-git")
-    return {"gitleaks": output}
+    return {"gitleaks": run_command("gitleaks detect --report-format json --no-git || true")}

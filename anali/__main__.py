@@ -1,23 +1,28 @@
 ﻿from anali.core.detector import detect_framework
-from anali.core.scanner import run_scans
-from anali.secrets.gitleaks_runner import scan_secrets
-from anali.dependencies.npm_audit_runner import run_npm_audit
+from anali.core.scanner import run_scans, run_secrets_scan, run_dependency_scan
 from anali.core.reporter import generate_report
+import argparse
 
-if __name__ == "__main__":
-    print("🔍 Detecting frameworks...")
-    frameworks = detect_framework()
-    print("Detected:", frameworks)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--path", type=str, default=".", help="Path to project root")
+    args = parser.parse_args()
+
+    print(f"🔍 Scanning project at: {args.path}")
+    frameworks = detect_framework(args.path)
+    print(f"Detected: {frameworks}")
 
     print("🧠 Running static + dynamic analysis...")
     scans = run_scans(frameworks)
 
-    print("🔑 Running secrets scan...")
-    secrets = scan_secrets()
+    print("🔑 Scanning for secrets...")
+    secrets = run_secrets_scan()
 
-    print("📦 Running dependency audit...")
-    dependencies = run_npm_audit()
+    print("📦 Auditing dependencies...")
+    dependencies = run_dependency_scan(frameworks)
 
-    print("🧾 Generating unified report...")
+    print("🧾 Generating reports...")
     generate_report(scans, secrets, dependencies)
-    print("✅ Aegis Layer 1 completed successfully.")
+
+if __name__ == "__main__":
+    main()
